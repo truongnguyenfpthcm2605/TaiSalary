@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <title>Title</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <style>
+   
+        h2 {
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+        }
+
+        label {
+            font-weight: bold;
+            color:black;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h4 style="text-align: center;">Tính Lương Cho Tài</h4>
+        <hr>
+    </div>
+    <form style="width: 80%; margin: 0 auto;" onchange="sum()">
+        <div class="form-group">
+            <label for="luongCoBan">Lương Cơ Bản</label>
+            <input type="number" id="luongCoBan" value="5000000" disabled class="form-control" min="0">
+        </div>
+        <div class="form-group">
+            <label for="ngayCong">Ngày Công</label>
+            <input type="number" id="ngayCong" class="form-control" min="0">
+        </div>
+        <div class="form-group">
+            <label for="tangCaNgay">Tăng Ca Ngày</label>
+            <input type="number" id="tangCaNgay" class="form-control" min="0">
+        </div>
+        <div class="form-group">
+            <label for="tangCaDem">Tăng Ca Đêm</label>
+            <input type="number" id="tangCaDem" class="form-control" min="0">
+        </div>
+        <div class="form-group">
+            <label for="comCaDem">Cơm Ca Đêm</label>
+            <input type="number" id="comCaDem" class="form-control" min="0">
+        </div>
+        <div class="form-group">
+            <label for="comChuNhat">Cơm Chủ Nhật</label>
+            <input type="number" id="comChuNhat" class="form-control" min="0">
+        </div>
+
+        <h4 style="color:greenyellow;">Khoảng Cộng</h4>
+        <div class="form-group">
+            <label for="thuongCongViec">Thưởng Công Việc</label>
+            <input type="number" id="thuongCongViec" disabled value="2230000" class="form-control" min="0">
+        </div>
+        <div class="form-group">
+            <label for="phuCap">Phụ Cấp</label>
+            <input type="number" id="phuCap" value="120000" disabled class="form-control" min="0">
+        </div>
+        <div class="form-group">
+            <label for="tayNghe">Tay Nghề</label>
+            <input type="number" id="tayNghe" value="300000" disabled class="form-control" min="0">
+        </div>
+        <div class="form-group">
+            <label for="trachNhiem2">Trách Nhiệm</label>
+            <input type="number" id="trachNhiem2" value="850000" disabled class="form-control" min="0">
+        </div>
+        <div class="form-group">
+            <label for="chuyenCan">Chuyên Cần</label>
+            <input type="number" id="chuyenCan" value="300000" disabled class="form-control" min="0">
+        </div>
+        <h4 style="color: red;">Khoảng Trừ</h4>
+        <div class="form-group">
+            <label for="baoHiem">Bảo Hiểm</label>
+            <input type="number" id="baoHiem" value="645000" disabled class="form-control" min="0">
+        </div>
+        <div class="form-group">
+            <label for="congDoan">Công Đoàn</label>
+            <input type="number" id="congDoan" value="45000" disabled class="form-control" min="0">
+        </div>
+        <h1 style="color: yellow;" id="sum"></h1>
+    </form>
+    <script>
+        function sum() {
+            const luongCoBan = parseFloat(document.getElementById('luongCoBan').value);
+            const ngayCong = parseFloat(document.getElementById('ngayCong').value);
+            const tangCaNgay = parseFloat(document.getElementById('tangCaNgay').value);
+            const tangCaDem = parseFloat(document.getElementById('tangCaDem').value);
+            const comCaDem = parseFloat(document.getElementById('comCaDem').value);
+            const comChuNhat = parseFloat(document.getElementById('comChuNhat').value);
+            const thuongCongViec = parseFloat(document.getElementById('thuongCongViec').value);
+            const phuCap = parseFloat(document.getElementById('phuCap').value);
+            const tayNghe = parseFloat(document.getElementById('tayNghe').value);
+            const trachNhiem2 = parseFloat(document.getElementById('trachNhiem2').value);
+            const chuyenCan = parseFloat(document.getElementById('chuyenCan').value);
+            const baoHiem = parseFloat(document.getElementById('baoHiem').value);
+            const congDoan = parseFloat(document.getElementById('congDoan').value);
+
+
+            const a = (((luongCoBan/26)*ngayCong) + phuCap + trachNhiem2 + chuyenCan + tayNghe + thuongCongViec + sumTangCaNgay(tangCaNgay) + sumTangCaDem(tangCaDem) + (comCaDem * 40000) + (comChuNhat * 160000));
+            const b = a - (baoHiem + congDoan);
+            const formattedAmount = new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(b.toFixed(2));
+            document.getElementById('sum').innerHTML = 'Tổng Tiền ' + formattedAmount+ 'VND'
+            return b;
+        }
+
+        function sumTangCaNgay(tangca) {
+            const luongCoBan = parseFloat(document.getElementById('luongCoBan').value);
+            const tayNghe = parseFloat(document.getElementById('tayNghe').value);
+            const trachNhiem2 = parseFloat(document.getElementById('trachNhiem2').value);
+
+            const a = (luongCoBan + tayNghe + trachNhiem2);
+            const b = a / 26;
+            const c = b / 8;
+            const d = (c * 1.5) * parseFloat(tangca);
+            console.log('ca ngay' + d.toFixed(2)); 
+            return d;
+        }
+
+        function sumTangCaDem(tangca) {
+            const luongCoBan = parseFloat(document.getElementById('luongCoBan').value);
+            const tayNghe = parseFloat(document.getElementById('tayNghe').value);
+            const trachNhiem2 = parseFloat(document.getElementById('trachNhiem2').value);
+
+            const a = (luongCoBan + tayNghe + trachNhiem2);
+            const b = a / 26
+            const c = b / 8;
+            const d = c * parseFloat(tangca);
+            console.log('ca dem' + d.toFixed(2)); 
+            return d;
+        }
+
+    </script>
+
+</body>
+
+</html>
